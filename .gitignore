@@ -123,3 +123,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Other files
+*.csv
+*.pkl
+.vscode
