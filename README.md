@@ -32,4 +32,7 @@ It has been designed to encapsulate the different processes during a data hackat
     - Create a hyper parameter tuning script
     - Update `create_folds.py` to read multiple files, concat them and then create folds
     - Update `categorical.py` for more encoding methods.
-    - 
+    - Update the framework to include models other than sklearn. Eg:
+        - Factorization Machine
+        - Neural Networks
+        - Vowpal Wabbit
