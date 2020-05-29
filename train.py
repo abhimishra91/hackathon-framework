@@ -46,7 +46,7 @@ if __name__ == "__main__":
         ytrain = train_df.target.values
         yvalid = valid_df.target.values
 
-        idx.extend(valid_df["id"].values.tolist)
+        idx.extend(valid_df["id"].values.tolist())
 
         train_df = train_df.drop(["id", "kfold", "target"], axis=1)
         valid_df = valid_df.drop(["id", "kfold", "target"], axis=1)
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         clf = dispatcher.MODELS[MODEL]
         clf.fit(train_df, ytrain)
         preds = clf.predict_proba(valid_df)[:,1]
-        predictions.extend(preds.values.tolist)
+        predictions.extend(preds.values.tolist())
         print(metrics.roc_auc_score(yvalid, preds))
 
 
