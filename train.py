@@ -63,7 +63,7 @@ if __name__ == "__main__":
         clf = dispatcher.MODELS[MODEL]
         clf.fit(train_df, ytrain)
         preds = clf.predict_proba(valid_df)[:,1]
-        predictions.extend(preds.values.tolist())
+        predictions.extend(preds.tolist())
         print(metrics.roc_auc_score(yvalid, preds))
 
 
