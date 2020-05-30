@@ -37,21 +37,42 @@ It has been designed to encapsulate the different processes during a data hackat
 8. Run `python train.py <model_name>`
 9. The results will be saved in the `model` folder.
 
-  
-  
-  
 
-**It's a work in progress.**
 
-  
 
-## TO DO:
+## Description of Files and their Purpose
 
-- Update `dispatcher.py` to feed multiple models to `train.py`
-- Create a hyper parameter tuning script
-- Update `create_folds.py` to read multiple files, concat them and then create folds
-- Update `categorical.py` for more encoding methods.
-- Update the framework to include models other than sklearn. Eg:
-    - Factorization Machine
-    - Neural Networks
-    - Vowpal Wabbit
+ - `config.py`: Config file to give path of all the datasets and other standard configuration items. Such as csv files path, random seed etc.
+ 
+ -  `feature_eval.py`: This script and the class inside is used to analyze the dataframe and its columns to get the following output:
+	 - min, max and unique values of each column
+	 - histogram/ distribution of each column
+	 - corelation of columns using a heat map
+
+- `create_folds.py`: Creates cross validated dataset for any given dataframe, and then saves it in the given location. Ready for any modelling task. It uses `cross_validation.py`  to perform this action.
+
+- `cross_validation.py`: This class is used to perform cross validation on any dataframe based on the type of problem statement. It is used in the `create_folds.py` script 
+
+- `categorical.py`: This class can be used for encoding of categorical features in a given dataframe.
+	- Inputs : Dataframe, Categorical Columns List, Type of Encoding
+	- Output: Encoded Dataframe
+
+- `metrics.py`: This class can be used to evaluate the results of given predictions and actual value. 
+
+- `dispatcher.py`: Python File with Models and parameters. They have been designed to supply the models to `train.py` for training on a given dataset
+
+- `train.py`: Python script to train data in a cross validated fashion using the folds created in the dataset. 
+	- Currently the script performs following functions:
+		- Input: Test dataframe with folds, specified model from the dispatcher
+		- Performs label encoding on the categorical dataset `## TO DO ##` 
+		- Trains the model on different folds and saves the each model, label encoder and out of fold prediction.
+
+- `predict.py`: Loads all the saved models, label encoders and columns from the folder and runs its on the validation set. Finally the predictions from different models are averaged to generate the final submission file. 
+---
+***NOTE***
+
+- This is a work in progress. Scripts to be created for feature encoding and transformation.
+- Link up further scripts for a complete framework.
+- Script for tuning training and prediction to be created refined and enhanced. 
+
+
