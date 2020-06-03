@@ -7,7 +7,7 @@ class NumericalFeatures:
         """
         df: pandas dataframe
         categorical_features: List of Columns that we want to encode
-        encoding_type: standard, min-max, power
+        encoding_type: standard, min-max, power. log
         """
         self.df = df
         self.num_feats = numerical_features
