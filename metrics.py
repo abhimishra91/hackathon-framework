@@ -2,8 +2,6 @@ from sklearn import metrics as skmetrics
 import numpy as np
 
 
-
-
 class RegressionMetric:
     def __init__(self):
         self.metrics = {
@@ -43,7 +41,6 @@ class RegressionMetric:
     def _r2(y_true, y_pred):
         return skmetrics.r2_score(y_true=y_true, y_pred=y_pred)
 
-    
 
 class ClassificationMetric:
     def __init__(self):
