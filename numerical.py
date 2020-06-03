@@ -88,6 +88,7 @@ class NumericalFeatures:
         elif self.enc_type == "log":
             for c, logt in self.log_transform.items():
                 dataframe.loc[:, c] = logt.transform(dataframe[c].values.reshape(-1,1))
+            return dataframe
         else:
             raise Exception('Transformation not understood')
 
