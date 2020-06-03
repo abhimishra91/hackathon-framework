@@ -48,7 +48,6 @@ class CategoricalFeatures:
         self.ohe = ohe
         return ohe.transform(self.df[self.cat_feats].values)
 
-
     def fit_transform(self):
         if self.enc_type == 'label':
             return self._label_encoding()
