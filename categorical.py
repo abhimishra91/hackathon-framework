@@ -1,5 +1,4 @@
 from sklearn import preprocessing
-import config
 
 
 class CategoricalFeatures:
@@ -69,7 +68,7 @@ class CategoricalFeatures:
             return dataframe        
         elif self.enc_type == 'binary':
             for c, lbl in self.binary_encoders.items():
-                val = lbl.transform(dataframe[c].values) #array
+                val = lbl.transform(dataframe[c].values)
                 dataframe = dataframe.drop(c, axis=1)
                 for j in range(val.shape[1]):
                     new_col_name = c + f"__bin_{j}" 
@@ -84,6 +83,7 @@ class CategoricalFeatures:
 
 # if __name__ == "__main__":
 #     import pandas as pd
+#     import config
 #     from sklearn import linear_model
 #     DATA_PATH = config.DATA_PATH
 #     TRAINING_DATA = DATA_PATH + r'\train_cat.csv'
