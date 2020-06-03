@@ -1,4 +1,5 @@
 from sklearn import preprocessing
+import numpy as np
 
 
 class NumericalFeatures:
@@ -15,6 +16,7 @@ class NumericalFeatures:
         self.stan_scaler = dict()
         self.min_max_encoder = dict()
         self.power_transform_encoder = dict()
+        self.log_transform = dict()
 
         if self.handle_na:
             for c in self.num_feats:
@@ -46,6 +48,14 @@ class NumericalFeatures:
             self.power_transform_encoder[c] = powt
         return self.output_df
 
+    def _log_transform(self):
+        for c in self.num_feats:
+            logt = preprocessing.FunctionTransformer(np.log1p, validate=True)
+            logt.fit(self.df[c].values.reshape(-1,1))
+            self.output_df.loc[:, c] = logt.transform(self.df[c].values.reshape(-1,1))
+            self.log_transform[c] = logt
+        return self.output_df
+
     def fit_transform(self):
         if self.enc_type == "min-max":
             return self._min_max_scaler()
@@ -53,6 +63,8 @@ class NumericalFeatures:
             return self._standard_scaler()
         elif self.enc_type == "power":
             return self._power_transform()
+        elif self.enc_type == "log":
+            return self._log_transform()
         else:
             raise Exception('Transformation Type not understood')
 
@@ -73,9 +85,11 @@ class NumericalFeatures:
             for c, powt in self.power_transform_encoder.items():
                 dataframe.loc[:, c] = powt.transform(dataframe[c].values.reshape(-1, 1))
             return dataframe
+        elif self.enc_type == "log":
+            for c, logt in self.log_transform.items():
+                dataframe.loc[:, c] = logt.transform(dataframe[c].values.reshape(-1,1))
         else:
             raise Exception('Transformation not understood')
-
 
 # if __name__ == "__main__":
 #     import pandas as pd
@@ -83,6 +97,6 @@ class NumericalFeatures:
 #     df = pd.read_csv(r'C:\Users\abhis\OneDrive - IHS Markit\Python\00_practice\00_practice\diamonds.csv',
 #                      encoding='latin-1')
 #     num_cols = ['price']
-#     num_feat_transform = NumericalFeatures(df, num_cols, encoding_type='power', handle_na=False)
+#     num_feat_transform = NumericalFeatures(df, num_cols, encoding_type='log', handle_na=False)
 #     transformed_df = num_feat_transform.fit_transform()
 #     print(transformed_df.head())
