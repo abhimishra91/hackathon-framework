@@ -5,12 +5,13 @@ import numpy as np
 class RegressionMetric:
     def __init__(self):
         self.metrics = {
-            "mae":self._mae,
-            "mse":self._mse,
-            "rmse":self._rmse,
-            "msle":self._msle,
-            "rmsle":self._rmsle,
-            "r2":self._r2
+            "mae": self._mae,
+            "mse": self._mse,
+            "rmse": self._rmse,
+            "msle": self._msle,
+            "rmsle": self._rmsle,
+            "r2": self._r2,
+            "mape": self._mape
         }
 
     def __call__(self, metric, y_true, y_pred):
@@ -40,6 +41,11 @@ class RegressionMetric:
     @staticmethod
     def _r2(y_true, y_pred):
         return skmetrics.r2_score(y_true=y_true, y_pred=y_pred)
+
+    @staticmethod
+    def _mape(y_true, y_pred):
+        y_true, y_pred = np.array(y_true), np.array(y_pred)
+        return np.mean(np.abs((y_true-y_pred)/y_true))*100
 
 
 class ClassificationMetric:
