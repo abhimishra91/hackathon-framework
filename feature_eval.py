@@ -49,7 +49,7 @@ class FeatEval:
                 print(f'No of Unique Values: {self.df[col].nunique()}')
             if self.dist:
                 self.feat_plot(col)
-        if self.corr_plt:
+        if self.corr:
             self.corr_plt()
         return
 
