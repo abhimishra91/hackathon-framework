@@ -22,12 +22,14 @@ class FeatEval:
 
     def feat_plot(self, col):
         if self.df[col].dtype == 'O':
-            return 'To be decided'
+            plt.figure(figsize=(16, 9))
+            sns.boxplot(x=col, y=self.target, data=self.df)
+            plt.show()
         else:
             plt.figure(figsize=(16, 9))
             sns.distplot(self.df[col])
             plt.show()
-            return
+        return
 
     def corr_plt(self):
         corr = self.df.corr()
