@@ -21,7 +21,8 @@ if __name__ == "__main__":
     #     print(len(train_idx), len(val_idx))
     #     df.loc[val_idx, 'kfold'] = fold
 
-    # cross_val = CrossValidation(df = df, target_cols=['price'], problem_type='single_col_regression', stratified_regression = True)
+    # cross_val = CrossValidation(df = df, target_cols=['price'], problem_type='single_col_regression',
+    # stratified_regression = True)
     cross_val = CrossValidation(df = df, target_cols=['target'], problem_type='binary_classification', stratified_regression = False)
     df_folds = cross_val.split()
     # df.to_csv(FOLDS_DATA_REG, index=False)

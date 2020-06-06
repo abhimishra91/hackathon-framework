@@ -17,7 +17,7 @@ class CategoricalFeatures:
 
         if self.handle_na:
             for c in self.cat_feats:
-                self.df.loc[:,c] = self.df.loc[:,c].astype(str).fillna('-9999999999')
+                self.df.loc[:,c] = self.df.loc[:, c].astype(str).fillna('-9999999999')
 
         self.output_df = self.df.copy(deep=True)
 
@@ -33,7 +33,7 @@ class CategoricalFeatures:
         for c in self.cat_feats:
             lbl = preprocessing.LabelBinarizer()
             lbl.fit(self.df[c].values)
-            val = lbl.transform(self.df[c].values) #array
+            val = lbl.transform(self.df[c].values)
             self.output_df = self.output_df.drop(c, axis=1)
             for j in range(val.shape[1]):
                 new_col_name = c + f"__bin_{j}" 
@@ -60,7 +60,7 @@ class CategoricalFeatures:
     def transform(self, dataframe):
         if self.handle_na: 
             for c in self.cat_feats:
-                dataframe.loc[:,c] = dataframe.loc[:,c].astype(str).fillna('-9999999999')
+                dataframe.loc[:,c] = dataframe.loc[:, c].astype(str).fillna('-9999999999')
 
         if self.enc_type == 'label':
             for c, lbl in self.label_encoders.items():
@@ -78,7 +78,6 @@ class CategoricalFeatures:
             return self.ohe.transform(dataframe[self.cat_feats].values)
         else:
             raise Exception('Encoding Type not understood')
-
 
 
 # if __name__ == "__main__":

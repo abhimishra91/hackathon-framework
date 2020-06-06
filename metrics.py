@@ -59,7 +59,7 @@ class ClassificationMetric:
             "logloss": self._logloss
         }
 
-    def __call__(self,metric, y_true, y_pred, y_proba=None):
+    def __call__(self, metric, y_true, y_pred, y_proba=None):
         if metric not in self.metrics:
             raise Exception('Metric not implemented')
         if metric == 'auc':

@@ -1,8 +1,6 @@
 import numpy as np
-import pandas as pd
 from sklearn import model_selection
 
-import config
 
 """
 
@@ -16,6 +14,7 @@ Categories to tackle
 
 """
 
+
 class CrossValidation():
     def __init__(
         self,
@@ -23,7 +22,7 @@ class CrossValidation():
         target_cols,
         shuffle=False,
         problem_type='binary_classification',
-        stratified_regression = False,
+        stratified_regression=False,
         multilabel_delimiter=',',
         n_folds=5,
         random_state=42
@@ -65,14 +64,13 @@ class CrossValidation():
                     self.dataframe.loc[val_idx, 'kfold'] = fold
 
         elif self.problem_type in ('single_col_regression', 'multi_col_regression'):
-            if self.num_targets !=1 and self.problem_type == 'single_col_regression':
+            if self.num_targets != 1 and self.problem_type == 'single_col_regression':
                 raise Exception('Invalid number of targets for this type of problem')
             if self.num_targets < 2 and self.problem_type == 'multi_col_regression':
                 raise Exception('Invalid number of targets for this type of problem')
             kf = model_selection.KFold(n_splits=self.num_folds)
             for fold, (train_idx, val_idx) in enumerate(kf.split(X=self.dataframe)):
                 self.dataframe.loc[val_idx, 'kfold'] = fold
-
 
         elif self.problem_type in ('single_col_regression') and self.stratified_regression:
             if self.num_targets != 1 and self.problem_type == "single_col_regression":
@@ -104,6 +102,8 @@ class CrossValidation():
         return self.dataframe
 
 # if __name__ == "__main__":
+#     import config
+#     import pandas as pd
 #     REG_DATA = config.RAW_DATA
 #     df = pd.read_csv(REG_DATA)
 #     cross_val = CrossValidation(df=df, target_cols=['price'], problem_type='single_col_regression', stratified_regression = True)
