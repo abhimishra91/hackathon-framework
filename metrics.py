@@ -45,7 +45,8 @@ class RegressionMetric:
     @staticmethod
     def _mape(y_true, y_pred):
         y_true, y_pred = np.array(y_true), np.array(y_pred)
-        return np.mean(np.abs((y_true-y_pred)/y_true))*100
+        y_val = np.maximum(y_true, 1e-8)
+        return (np.abs(y_true - y_pred) / y_val).mean()
 
 
 class ClassificationMetric:
