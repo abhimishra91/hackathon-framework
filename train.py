@@ -10,8 +10,6 @@ import joblib
 import config
 import dispatcher
 
- 
-
 
 TRAINING_DATA = config.TRAINING_DATA
 TEST_DATA = config.TEST_DATA
@@ -65,7 +63,6 @@ if __name__ == "__main__":
         preds = clf.predict_proba(valid_df)[:,1]
         predictions.extend(preds.tolist())
         print(metrics.roc_auc_score(yvalid, preds))
-
 
         joblib.dump(label_encoder, f'models/{MODEL}_{FOLD}_label_encoder.pkl')
         joblib.dump(clf, f'models/{MODEL}_{FOLD}_.pkl')
