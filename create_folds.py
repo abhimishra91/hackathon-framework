@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     # cross_val = CrossValidation(df = df, target_cols=['price'], problem_type='single_col_regression',
     # stratified_regression = True)
-    cross_val = CrossValidation(df = df, target_cols=['target'], problem_type='binary_classification', stratified_regression = False)
+    cross_val = CrossValidation(df=df, target_cols=['target'], problem_type='binary_classification', stratified_regression = False)
     df_folds = cross_val.split()
     # df.to_csv(FOLDS_DATA_REG, index=False)
     df.to_csv(FOLDS_DATA, index=False)
