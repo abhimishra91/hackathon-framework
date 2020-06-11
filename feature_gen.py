@@ -28,10 +28,10 @@ class FeatureGen:
             output_df = pd.concat([self.df, new_features], axis=1)
             return output_df
 
-#
-# if __name__ == "__main__":
-#     import pandas as pd
-#     df = pd.read_csv(r'C:\Users\abhis\Documents\01_proj\kaggle_comp\sample_ihsm\input\train_sample.csv')
-#     poly = FeatureGen(df, degree=2)
-#     new_df = poly.fit_transform()
-#     print(new_df.head())
+
+if __name__ == "__main__":
+    import pandas as pd
+    df = pd.read_csv(r'C:\Users\abhis\Documents\01_proj\kaggle_comp\sample_ihsm\input\train_sample.csv')
+    poly = FeatureGen(df, degree=2)
+    new_df = poly.fit_transform()
+    print(new_df.head())
