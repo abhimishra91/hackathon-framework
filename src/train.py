@@ -2,14 +2,11 @@ import argparse
 import pandas as pd
 
 from sklearn import preprocessing
-from sklearn import ensemble
 from sklearn import metrics
 
 import joblib
 
-import config
-import dispatcher
-
+from src import dispatcher, config
 
 TRAINING_DATA = config.TRAINING_DATA
 TEST_DATA = config.TEST_DATA
@@ -24,7 +21,7 @@ FOLD_MAPPING = {
 }
 
 if __name__ == "__main__":
-    
+    # TODO Update the train.py to use the ML Framework for all the work
     parser = argparse.ArgumentParser()
     parser.add_argument("model", help="Type in the model you want to run", type=str)
     args = parser.parse_args()

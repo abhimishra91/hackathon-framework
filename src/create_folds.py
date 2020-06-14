@@ -1,10 +1,9 @@
 import pandas as pd
-from sklearn import model_selection
-import config
-from cross_validation import CrossValidation
+from src import config
+from src.cross_validation import CrossValidation
 
 RAW_DATA = config.RAW_DATA
-FOLDS_DATA = config.DATA_PATH+r'\train_folds.csv'
+FOLDS_DATA = config.DATA_PATH + r'\diamonds_folds.csv'
 # REG_DATA = config.REG_DATA
 # FOLDS_DATA_REG = config.DATA_PATH+r'\train_folds_reg.csv'
 
@@ -12,7 +11,7 @@ FOLDS_DATA = config.DATA_PATH+r'\train_folds.csv'
 if __name__ == "__main__":
     # df = pd.read_csv(REG_DATA)
     # df['kfold'] = -1
-    df = pd.read_csv(RAW_DATA)
+    df = pd.read_csv(r'C:\Users\abhis\Documents\01_proj\input_data\diamonds.csv')
     df = df.sample(frac=1).reset_index(drop=True)
 
     # kf = model_selection.StratifiedKFold(n_splits=5, shuffle=False, random_state=42)
@@ -23,7 +22,7 @@ if __name__ == "__main__":
 
     # cross_val = CrossValidation(df = df, target_cols=['price'], problem_type='single_col_regression',
     # stratified_regression = True)
-    cross_val = CrossValidation(df=df, target_cols=['target'], problem_type='binary_classification', stratified_regression = False)
+    cross_val = CrossValidation(df=df, target_cols=['target'], problem_type='single_col_regression', stratified_regression=True)
     df_folds = cross_val.split()
     # df.to_csv(FOLDS_DATA_REG, index=False)
-    df.to_csv(FOLDS_DATA, index=False)
+    df_folds.to_csv(FOLDS_DATA, index=False)

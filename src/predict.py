@@ -2,14 +2,9 @@ import argparse
 import numpy as np
 import pandas as pd
 
-from sklearn import preprocessing
-from sklearn import ensemble
-from sklearn import metrics
-
 import joblib
 
-import config
-import dispatcher
+from src import config
 
 TRAINING_DATA = config.TRAINING_DATA
 TEST_DATA = config.TEST_DATA

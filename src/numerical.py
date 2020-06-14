@@ -30,7 +30,7 @@ class NumericalFeatures:
             ss.fit(self.df[c].values.reshape(-1, 1))
             self.output_df.loc[:, c] = ss.transform(self.df[c].values.reshape(-1, 1))
             self.stan_scaler[c] = ss
-        return self.output_df
+        return self.output_df, self.stan_scaler
 
     def _min_max_scaler(self):
         for c in self.num_feats:
@@ -38,7 +38,7 @@ class NumericalFeatures:
             mms.fit(self.df[c].values.reshape(-1, 1))
             self.output_df.loc[:, c] = mms.transform(self.df[c].values.reshape(-1, 1))
             self.min_max_encoder[c] = mms
-        return self.output_df
+        return self.output_df, self.min_max_encoder
 
     def _power_transform(self):
         for c in self.num_feats:
@@ -46,15 +46,15 @@ class NumericalFeatures:
             powt.fit(self.df[c].values.reshape(-1, 1))
             self.output_df.loc[:, c] = powt.transform(self.df[c].values.reshape(-1, 1))
             self.power_transform_encoder[c] = powt
-        return self.output_df
+        return self.output_df, self.power_transform_encoder
 
     def _log_transform(self):
         for c in self.num_feats:
-            logt = preprocessing.FunctionTransformer(np.log1p, validate=True)
+            logt = preprocessing.FunctionTransformer(np.log1p, inverse_func=np.expm1, validate=True)
             logt.fit(self.df[c].values.reshape(-1,1))
             self.output_df.loc[:, c] = logt.transform(self.df[c].values.reshape(-1,1))
             self.log_transform[c] = logt
-        return self.output_df
+        return self.output_df, self.log_transform
 
     def fit_transform(self):
         if self.enc_type == "min-max":

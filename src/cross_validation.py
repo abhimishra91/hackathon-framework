@@ -15,7 +15,7 @@ Categories to tackle
 """
 
 
-class CrossValidation():
+class CrossValidation:
     def __init__(
         self,
         df,
@@ -42,7 +42,8 @@ class CrossValidation():
 
         self.dataframe['kfold'] = -1
 
-    def _sort_partition(self, y, num_folds):
+    @staticmethod
+    def _sort_partition(y, num_folds):
         n = len(y)
         cats = np.empty(n, dtype='u4')
         div, mod = divmod(n, num_folds)
@@ -72,7 +73,7 @@ class CrossValidation():
             for fold, (train_idx, val_idx) in enumerate(kf.split(X=self.dataframe)):
                 self.dataframe.loc[val_idx, 'kfold'] = fold
 
-        elif self.problem_type in ('single_col_regression') and self.stratified_regression:
+        elif self.problem_type in 'single_col_regression' and self.stratified_regression:
             if self.num_targets != 1 and self.problem_type == "single_col_regression":
                 raise Exception("Invalid number of targets for this problem type")
             target = self.target_cols[0]
