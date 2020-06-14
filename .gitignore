@@ -128,4 +128,4 @@ dmypy.json
 *.csv
 *.pkl
 .vscode
-.idea/
+.idea
