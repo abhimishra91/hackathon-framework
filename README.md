@@ -2,6 +2,7 @@
 
 Objective of this project to enable quick experimentation in Data Analytics projects with minimal cookie cutter programming.
 Getting rid of all the fit_transforms.! 
+
 ---
 ***NOTE***
 
@@ -12,6 +13,7 @@ Getting rid of all the fit_transforms.!
     * Removal of some of the modules that are redundant
 
 
+---
 
 Framework that will be used for Data Hackathon
   
