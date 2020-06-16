@@ -25,6 +25,7 @@ class FeatEvaluation:
             print('~~~~~~==================~~~~~~')
             print(str(self.stat_desc(col)))
             print(f'No of Unique Values: {self.df[col].nunique()}')
+            print(f'No of Values in the column: {self.df[col].value_counts()}')
         return
 
     def feature_plot(self):
