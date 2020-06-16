@@ -1,9 +1,19 @@
-
 # Hackathon Framework
 
-Framework that will be used for Data Hackathon
+Objective of this project to enable quick experimentation in Data Analytics projects with minimal cookie cutter programming.
+Getting rid of all the fit_transforms.! 
+---
+***NOTE***
 
-  
+- This is a work in progress. Underlying modules are in process of development.
+- As this project matures there will be changes in the scripts such as `train.py` and `predict.py`
+- TODO
+    * Create modules for `tuning`, `stacking`
+    * Removal of some of the modules that are redundant
+
+
+
+Framework that will be used for Data Hackathon
   
 
 This is an ML framework in progress that is going to be used for datahackathon events.
@@ -68,10 +78,3 @@ It has been designed to encapsulate the different processes during a data hackat
 		- Trains the model on different folds and saves the each model, label encoder and out of fold prediction.
 
 - `predict.py`: Loads all the saved models, label encoders and columns from the folder and runs its on the validation set. Finally the predictions from different models are averaged to generate the final submission file. 
----
-***NOTE***
-
-- This is a work in progress. Scripts to be created for feature encoding and transformation.
-- Link up further scripts for a complete framework.
-- Script for tuning training and prediction to be created refined and enhanced. 
-
