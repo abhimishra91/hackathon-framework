@@ -38,7 +38,6 @@ class FeatureImpute:
 
         self.output_df = self.df.copy(deep=True)
 
-    @staticmethod
     def _simple_impute(self):
         for col in self.target:
             s_impute = impute.SimpleImputer()
@@ -46,7 +45,6 @@ class FeatureImpute:
             self.output_df.loc[:, col] = s_impute.fit_transform(self.df[col].values)
         return self.output_df
 
-    @staticmethod
     def _model_impute(self):
         for col in self.target:
             m_impute = impute.IterativeImputer(estimator=self.estimator, random_state=42)
@@ -54,7 +52,6 @@ class FeatureImpute:
             self.output_df.loc[:, col] = m_impute.fit_transform(self.df[col].values)
         return self.output_df
 
-    @staticmethod
     def _knn_impute(self):
         for col in self.target:
             k_impute = impute.KNNImputer()
