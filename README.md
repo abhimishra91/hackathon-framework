@@ -15,19 +15,29 @@ Getting rid of all the fit_transforms.!
 
 ---
 
-Framework that will be used for Data Hackathon
-  
+The framework is designed to make the Data Science flow easier to perform, by encapsulating different techniques for each step within 1 method.
+There are classes for each of the below listed steps:
 
-This is an ML framework in progress that is going to be used for datahackathon events.
-
-It has been designed to encapsulate the different processes during a data hackathon challenge.
-
-  
-
+ - Feature Evaluation
+    * Report to give an intution of the dataset
+ 
+ - Feature Engineering
+    * Modules to perform feature transformations on Categorical and Numerical Dataset.
+    * Various applicable techniques are encoded within these modules and are accesed with an argument.
+ 
+ - Fefature Generation
+    * Module to create new features based on different techniques
+   
  - Cross Validation
+    * Stratified Folding both for Regression and Classification
 
  - Training
+    * Run multiple models using 1 class.
+    * Evaluating and Saving the results in an organized manner
 
+ - Tuning
+    * Hyper-parameter tuning of multiple models, based on json arguments for parameter values.
+ 
  - Prediction
 
  - Evaluating the model
@@ -40,43 +50,66 @@ It has been designed to encapsulate the different processes during a data hackat
   
 
 1. Clone the repo.
-2. Create 2 empty folders `input` and `model`.
-3. Save the training, testing and sample submission file in `input` folder. The outputs generated from training such as trained model, encoders and oof_preds will be saved in `model` folder.
-4. Update the `config.py` to point it to the correct path of the training and test files.
-5. Run the `create_folds.py`
-6. Update the `dispatcher.py` with model/models you want to run your dataset on.
-7. Open Command Prompt and go to the local of the repo.
-8. Run `python train.py <model_name>`
-9. The results will be saved in the `model` folder.
+2. Create 3 folders `input` and `model` and `tuneq`.
+3. Save the training, testing and sample submission file in `input` folder. 
+4. The outputs generated from training such as trained model, encoders and oof_preds will be saved in `model` folder.
+5. The parameters for fine tuning the models should be saved in the `tune` folder.
+6. Update the `config.py` to point it to the correct path for data, model and tuning.
+7. Update the `dispatcher.py` with model/models you want to run your dataset on.
+8. Use the sample notebook to understand how to use this framework after this intial configuration is completed.
 
 
 
 
 ## Description of Files and their Purpose
 
- - `config.py`: Config file to give path of all the datasets and other standard configuration items. Such as csv files path, random seed etc.
+- `config.py`: Config file to give path of all the datasets and other standard configuration items. Such as csv files path, random seed etc.
  
- -  `feature_eval.py`: This script and the class inside is used to analyze the dataframe and its columns to get the following output:
+- `feature_eval.py`: This script and the class inside is used to analyze the dataframe and its columns to get the following output:
 	 - min, max and unique values of each column
 	 - histogram/ distribution of each column
 	 - corelation of columns using a heat map
+	 
+- `feature_gen.py`: Encapsulates method to generate new features. Currently implemented the `Polynomial features` method from sklearn.
+    Returns Dataframe with new features. 
 
-- `create_folds.py`: Creates cross validated dataset for any given dataframe, and then saves it in the given location. Ready for any modelling task. It uses `cross_validation.py`  to perform this action.
+- `feature_impute.py`: Encapsulates the method to impute blank values in a dataframe.
+    Currently, it supports 3 imputation methods:
+    - Simple Imputer
+    - Model Based Imputer: Extra Trees or knn
+    - Knn based imputer
+    - Returns updated Dataframe
 
-- `cross_validation.py`: This class is used to perform cross validation on any dataframe based on the type of problem statement. It is used in the `create_folds.py` script 
+- `cross_validation.py`: This class is used to perform cross validation on any dataframe based on the type of problem statement. It is used to create cross validated dataset.
 
 - `categorical.py`: This class can be used for encoding of categorical features in a given dataframe.
 	- Inputs : Dataframe, Categorical Columns List, Type of Encoding
 	- Output: Encoded Dataframe
+	- Supported Encoding Techniques:
+	    - Lable Encoding
+	    - Binary Encoding
+	    - One Hot Encoding
 
+- `numerical.py`: This class can be used for encoding of numerical features in a given dataframe.
+	- Inputs : Dataframe, Categorical Columns List, Type of Encoding
+	- Output: Encoded Dataframe, Transformer Object for later use. 
+	- Support Techniques:
+	    - Standard Scaler
+	    - Min-Max Scaler
+	    - Power Tranformer
+	    - Log Transformer
+	
 - `metrics.py`: This class can be used to evaluate the results of given predictions and actual value. 
 
-- `dispatcher.py`: Python File with Models and parameters. They have been designed to supply the models to `train.py` for training on a given dataset
+- `dispatcher.py`: Python File with Models and parameters. They have been designed to supply the models to `engine.py` for training on a given dataset
 
-- `train.py`: Python script to train data in a cross validated fashion using the folds created in the dataset. 
-	- Currently the script performs following functions:
-		- Input: Test dataframe with folds, specified model from the dispatcher
-		- Performs label encoding on the categorical dataset `## TO DO ##` 
-		- Trains the model on different folds and saves the each model, label encoder and out of fold prediction.
+- `engine.py`: This script encapsulates the method to train and evaluate the multiple models simultaneously
+    - Leverages on `dispatcher.py` and `metrics.py` for model and metrics
+    - The results for each fold are also saved in the `models` folder as `oof_predictions.csv` for each model.
+    - **To Do** Stacking module to suporrt stacking of multiple models
 
-- `predict.py`: Loads all the saved models, label encoders and columns from the folder and runs its on the validation set. Finally the predictions from different models are averaged to generate the final submission file. 
+- **Scripts to be ignored for now**:
+    - `train.py`: For training
+    - `predict.py`: For prediction
+    - `tune.py`: For tuning h-parameter
+    - `create_folds.py`: To create folded datframe
