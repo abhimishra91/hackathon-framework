@@ -12,26 +12,26 @@ class FeatEvaluation:
         self.target = target_col
 
     def stat_desc(self, col):
-        if self.df[col].dtype == 'O':
-            return 'Categorical Data'
+        if self.df[col].dtype == "O":
+            return "Categorical Data"
         else:
-            return self.df[col].describe().loc[['min', 'max']]
+            return self.df[col].describe().loc[["min", "max"]]
 
     def feature_report(self):
-        print('Feature Report Generated for all the columns in the Dataframe')
+        print("Feature Report Generated for all the columns in the Dataframe")
         for col in self.df.columns:
-            print('\n')
-            print(f'Feature Report for Column: {col}')
-            print('~~~~~~==================~~~~~~')
+            print("\n")
+            print(f"Feature Report for Column: {col}")
+            print("~~~~~~==================~~~~~~")
             print(str(self.stat_desc(col)))
-            print(f'No of Unique Values: {self.df[col].nunique()}')
-            print(f'No of Values in the column: {self.df[col].value_counts()}')
+            print(f"No of Unique Values: {self.df[col].nunique()}")
+            print(f"No of Values in the column: {self.df[col].value_counts()}")
         return
 
     def feature_plot(self):
         for col in self.df.columns:
-            print('Plotting the Distribution for: {0}'.format(col))
-            if self.df[col].dtype == 'O':
+            print("Plotting the Distribution for: {0}".format(col))
+            if self.df[col].dtype == "O":
                 plt.figure(figsize=(16, 9))
                 sns.boxplot(x=col, y=self.target, data=self.df)
                 plt.show()
@@ -44,7 +44,16 @@ class FeatEvaluation:
     def corelation_plot(self):
         corr = self.df.corr()
         plt.figure(figsize=(16, 9))
-        sns.heatmap(corr, annot=True, vmin=-1, vmax=1, center=0, cmap='coolwarm', linewidths=1.5, linecolor='black')
+        sns.heatmap(
+            corr,
+            annot=True,
+            vmin=-1,
+            vmax=1,
+            center=0,
+            cmap="coolwarm",
+            linewidths=1.5,
+            linecolor="black",
+        )
         plt.show()
         return
 

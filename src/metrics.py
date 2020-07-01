@@ -11,7 +11,7 @@ class RegressionMetric:
             "msle": self._msle,
             "rmsle": self._rmsle,
             "r2": self._r2,
-            "mape": self._mape
+            "mape": self._mape,
         }
 
     def __call__(self, metric, y_true, y_pred):
@@ -22,7 +22,7 @@ class RegressionMetric:
 
     @staticmethod
     def _mae(y_true, y_pred):
-        return skmetrics.mean_absolute_error(y_true=y_true, y_pred=y_pred)  
+        return skmetrics.mean_absolute_error(y_true=y_true, y_pred=y_pred)
 
     @staticmethod
     def _mse(y_true, y_pred):
@@ -57,23 +57,23 @@ class ClassificationMetric:
             "recall": self._recall,
             "precision": self._precision,
             "auc": self._auc,
-            "logloss": self._logloss
+            "logloss": self._logloss,
         }
 
     def __call__(self, metric, y_true, y_pred, y_proba=None):
         if metric not in self.metrics:
-            raise Exception('Metric not implemented')
-        if metric == 'auc':
+            raise Exception("Metric not implemented")
+        if metric == "auc":
             if y_proba is not None:
                 return self._auc(y_true=y_true, y_pred=y_proba)
-            else: 
+            else:
                 raise Exception("y_proba cannot be None for AUC")
-        elif metric == 'logloss':
+        elif metric == "logloss":
             if y_proba is not None:
                 return self._auc(y_true=y_true, y_pred=y_proba)
-            else: 
+            else:
                 raise Exception("y_proba cannot be None for LogLoss")
-        else: 
+        else:
             return self.metrics[metric](y_true=y_true, y_pred=y_pred)
 
     @staticmethod
@@ -91,7 +91,7 @@ class ClassificationMetric:
     @staticmethod
     def _recall(y_true, y_pred):
         return skmetrics.recall_score(y_true=y_true, y_pred=y_pred)
-    
+
     @staticmethod
     def _precision(y_true, y_pred):
         return skmetrics.precision_score(y_true=y_true, y_pred=y_pred)

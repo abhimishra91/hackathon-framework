@@ -20,7 +20,7 @@ class NumericalFeatures:
 
         if self.handle_na:
             for c in self.num_feats:
-                self.df.loc[:, c] = self.df.loc[:, c].astype(str).fillna('-9999999999')
+                self.df.loc[:, c] = self.df.loc[:, c].astype(str).fillna("-9999999999")
 
         self.output_df = self.df.copy(deep=True)
 
@@ -50,9 +50,11 @@ class NumericalFeatures:
 
     def _log_transform(self):
         for c in self.num_feats:
-            logt = preprocessing.FunctionTransformer(np.log1p, inverse_func=np.expm1, validate=True)
-            logt.fit(self.df[c].values.reshape(-1,1))
-            self.output_df.loc[:, c] = logt.transform(self.df[c].values.reshape(-1,1))
+            logt = preprocessing.FunctionTransformer(
+                np.log1p, inverse_func=np.expm1, validate=True
+            )
+            logt.fit(self.df[c].values.reshape(-1, 1))
+            self.output_df.loc[:, c] = logt.transform(self.df[c].values.reshape(-1, 1))
             self.log_transform[c] = logt
         return self.output_df, self.log_transform
 
@@ -66,18 +68,18 @@ class NumericalFeatures:
         elif self.enc_type == "log":
             return self._log_transform()
         else:
-            raise Exception('Transformation Type not understood')
+            raise Exception("Transformation Type not understood")
 
     def transform(self, dataframe):
         if self.handle_na:
             for c in self.num_feats:
-                dataframe.loc[:, c] = dataframe.loc[:, c].astype(str).fillna('-9999999')
+                dataframe.loc[:, c] = dataframe.loc[:, c].astype(str).fillna("-9999999")
 
-        if self.enc_type == 'min-max':
+        if self.enc_type == "min-max":
             for c, mms in self.min_max_encoder.items():
                 dataframe.loc[:, c] = mms.transform(dataframe[c].values.reshape(-1, 1))
             return dataframe
-        elif self.enc_type == 'standard':
+        elif self.enc_type == "standard":
             for c, ss in self.stan_scaler.items():
                 dataframe.loc[:, c] = ss.transform(dataframe[c].values.reshape(-1, 1))
             return dataframe
@@ -87,10 +89,11 @@ class NumericalFeatures:
             return dataframe
         elif self.enc_type == "log":
             for c, logt in self.log_transform.items():
-                dataframe.loc[:, c] = logt.transform(dataframe[c].values.reshape(-1,1))
+                dataframe.loc[:, c] = logt.transform(dataframe[c].values.reshape(-1, 1))
             return dataframe
         else:
-            raise Exception('Transformation not understood')
+            raise Exception("Transformation not understood")
+
 
 # if __name__ == "__main__":
 #     import pandas as pd

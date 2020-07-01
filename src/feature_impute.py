@@ -7,12 +7,12 @@ from sklearn import neighbors
 
 class FeatureImpute:
     def __init__(
-            self,
-            dataframe,
-            target_col: list,
-            impute_method: str = 'simple',
-            impute_model: str = 'lr',
-            impute_stratergy: str = 'mean',
+        self,
+        dataframe,
+        target_col: list,
+        impute_method: str = "simple",
+        impute_model: str = "lr",
+        impute_stratergy: str = "mean",
     ):
         """
 
@@ -29,9 +29,11 @@ class FeatureImpute:
         self.model = impute_model
         self.stratergy = impute_stratergy
 
-        if self.model == 'et':
-            self.estimator = ensemble.ExtraTreesRegressor(n_estimators=50, random_state=42)
-        elif self.model == 'knn':
+        if self.model == "et":
+            self.estimator = ensemble.ExtraTreesRegressor(
+                n_estimators=50, random_state=42
+            )
+        elif self.model == "knn":
             self.estimator = neighbors.KNeighborsRegressor(n_neighbors=15)
         else:
             self.estimator = linear_model.LinearRegression()
@@ -47,7 +49,9 @@ class FeatureImpute:
 
     def _model_impute(self):
         for col in self.target:
-            m_impute = impute.IterativeImputer(estimator=self.estimator, random_state=42)
+            m_impute = impute.IterativeImputer(
+                estimator=self.estimator, random_state=42
+            )
             m_impute.fit(self.df[col].values)
             self.output_df.loc[:, col] = m_impute.fit_transform(self.df[col].values)
         return self.output_df
@@ -60,11 +64,11 @@ class FeatureImpute:
         return self.output_df
 
     def fit_transfom(self):
-        if self.impute_method == 'simple':
+        if self.impute_method == "simple":
             return self._simple_impute()
-        elif self.impute_method == 'model':
+        elif self.impute_method == "model":
             return self._model_impute()
-        elif self.impute_method == 'knn':
+        elif self.impute_method == "knn":
             return self._knn_impute()
         else:
-            raise Exception('Imputation Type not defined')
+            raise Exception("Imputation Type not defined")

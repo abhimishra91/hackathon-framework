@@ -11,7 +11,6 @@ TEST_DATA = config.TEST_DATA
 FOLDS = config.FOLDS
 
 
-
 def predict(MODEL, FOLDS):
     MODEL = MODEL
     df = pd.read_csv(TEST_DATA)
@@ -21,16 +20,16 @@ def predict(MODEL, FOLDS):
     for FOLD in range(FOLDS):
         print(FOLD)
         df = pd.read_csv(TEST_DATA)
-        encoders = joblib.load(f'models/{MODEL}_{FOLD}_label_encoder.pkl')
-        cols = joblib.load(f'models/{MODEL}_{FOLD}_columns.pkl')
+        encoders = joblib.load(f"models/{MODEL}_{FOLD}_label_encoder.pkl")
+        cols = joblib.load(f"models/{MODEL}_{FOLD}_columns.pkl")
         for c in encoders:
             print(c)
             lbl = encoders[c]
-            df.loc[:,c] = lbl.transform(df[c].values.tolist())
+            df.loc[:, c] = lbl.transform(df[c].values.tolist())
 
-        clf = joblib.load(f'models/{MODEL}_{FOLD}_.pkl')
+        clf = joblib.load(f"models/{MODEL}_{FOLD}_.pkl")
         df = df[cols]
-        preds = clf.predict_proba(df)[:,1]
+        preds = clf.predict_proba(df)[:, 1]
 
         if FOLD == 0:
             predictions = preds
@@ -39,13 +38,14 @@ def predict(MODEL, FOLDS):
 
     predictions /= 5
 
-    sub = pd.DataFrame(np.column_stack((text_idx, predictions)), columns=['id', 'target'])
+    sub = pd.DataFrame(
+        np.column_stack((text_idx, predictions)), columns=["id", "target"]
+    )
     return sub
 
 
-
 if __name__ == "__main__":
-    
+
     parser = argparse.ArgumentParser()
     parser.add_argument("model", help="Type in the model you want to run", type=str)
     args = parser.parse_args()
@@ -54,7 +54,4 @@ if __name__ == "__main__":
 
     submission = predict(MODEL, FOLDS)
     submission.id = submission.id.astype(int)
-    submission.to_csv(f'models/{MODEL}.csv', index=False)
-
-
-    
+    submission.to_csv(f"models/{MODEL}.csv", index=False)
